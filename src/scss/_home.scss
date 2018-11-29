@@ -1,0 +1,18 @@
+.home-page {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      width: 100%;
+      height: calc(100vh - 80px);
+}
+
+.maps {
+      height: 80vh;
+      width: 80vw;
+      margin: auto;
+
+      @media (max-width: 620px) {
+            width: 95%;
+      }
+}
