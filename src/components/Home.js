@@ -3,6 +3,8 @@ import axios from "axios";
 import firebase from "firebase";
 import DayCard from './forecast/DayCard';
 import NightCard from './forecast/NightCard';
+import Error from './forecast/Error';
+import NextDays from './forecast/NextDays';
 
 class Home extends React.Component {
     constructor(props) {
@@ -17,7 +19,8 @@ class Home extends React.Component {
             selected: '',
             inputVal: '',
             code: '',
-            ok: true
+            checkQuery: true,
+            forecast: null,
         }
     }
 
@@ -27,7 +30,6 @@ class Home extends React.Component {
             return <option key={i}>{e.name}</option>
         })
 
-        this.state.dayForecast !== null && console.log(this.state.dayForecast);
         return (
             <div className='home-container'>
                 <h1 className='title'>Check the weather in:</h1>
@@ -48,28 +50,33 @@ class Home extends React.Component {
 
                 {
                     this.state.dayForecast !== null && this.state.nightForecast !== null
-                        ? <section className='cards'>
-                            {
-                                date > 7 && date < 19
-                                    ? <>
-                                        <DayCard city={this.state.city} data={this.state.dayForecast}/>
-                                        <NightCard city={this.state.city} data={this.state.nightForecast}/>
-                                    </>
-                                    : <>
-                                        <NightCard city={this.state.city} data={this.state.nightForecast}/>
-                                        <DayCard city={this.state.city} data={this.state.dayForecast}/>
-                                    </>
-                            }
-                        </section>
+                        ? <>
+                            <section className='cards'>
+                                {
+                                    date > 7 && date < 19
+                                        ? <>
+                                            <DayCard city={this.state.city} data={this.state.dayForecast}/>
+                                            <NightCard city={this.state.city} data={this.state.nightForecast}/>
+                                        </>
+                                        : <>
+                                            <NightCard city={this.state.city} data={this.state.nightForecast}/>
+                                            <DayCard city={this.state.city} data={this.state.dayForecast}/>
+                                        </>
+                                }
+                            </section>
+                            <NextDays day={this.state.dayForecast} night={this.state.nightForecast} />
+                        </>
 
 
-                        : <div className='loader-asd'>
+                        : this.state.checkQuery
+                        ? <div className='loader-asd'>
                             {
                                 date > 7 && date < 19
                                     ? <div><img src={require("../images/001-sunny.svg")} alt=""/></div>
                                     : <div><img src={require("../images/moon.svg")} alt=""/></div>
                             }
                         </div>
+                        : <Error/>
                 }
             </div>
         )
@@ -140,15 +147,20 @@ class Home extends React.Component {
         e.preventDefault();
         axios.get(`https://api.aerisapi.com/forecasts/${this.state.inputVal},${this.state.code}?filter=daynight&client_id=acDZUrrq2VrlSb3gOoAnG&client_secret=ivUH2JTtotXlCJa9xnEn19f7rK43x75wDaHFjWic`)
             .then(res => {
+                console.log(res);
                 this.setState({
-                    dayForecast: res.data.response[0].periods.filter(el => el.isDay),
-                    nightForecast: res.data.response[0].periods.filter(el => el.isDay == false),
-                    city: res.data.response[0].profile.tz.split('/')[1].replace('_', ' '),
-                    ok: res.data.success == false ? false : true,
-                    inputVal: '',
+                    dayForecast: res.data.success == false ? null : res.data.response[0].periods.filter(el => el.isDay),
+                    nightForecast: res.data.success == false ? null : res.data.response[0].periods.filter(el => el.isDay == false),
+                    city: res.data.success == false ? null : res.data.response[0].profile.tz.split('/')[1].replace('_', ' '),
+                    checkQuery: res.data.success == false ? false : true,
+                    //
+                    // long: res.data.response[0].loc.long,
+                    // lat: res.data.response[0].loc.lat,
+                    inputVal: ''
                 })
             })
     }
+
 }
 
 export default Home;

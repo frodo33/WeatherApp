@@ -1,11 +1,6 @@
 import React from 'react';
 
 class DayCard extends React.Component {
-    constructor(props) {
-        super(props);
-
-    }
-
     render() {
         return (
             <div className='card-dn'>
