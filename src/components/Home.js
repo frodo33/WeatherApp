@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from "axios";
-import firebase from "firebase";
+// import firebase from "firebase";
 import DayCard from './forecast/DayCard';
 import NightCard from './forecast/NightCard';
 import Error from './forecast/Error';
@@ -15,20 +15,22 @@ class Home extends React.Component {
             dayForecast: null,
             nightForecast: null,
             city: null,
-            isoCodes: [],
-            selected: '',
+            // isoCodes: [],
+            // selected: '',
+            // code: '',
             inputVal: '',
-            code: '',
             checkQuery: true,
-            forecast: null,
+            forecast: null
         }
     }
 
     render() {
         const date = new Date().getHours();
-        const options = this.state.isoCodes.map((e, i) => {
-            return <option key={i}>{e.name}</option>
-        })
+
+        //
+        // const options = this.state.isoCodes.map((e, i) => {
+        //     return <option key={i}>{e.name}</option>
+        // })
 
         return (
             <div className='home-container'>
@@ -38,11 +40,13 @@ class Home extends React.Component {
                         <input value={this.state.inputVal} onChange={this.handleInputChange} type="text"
                                placeholder='Your city'/>
                     </div>
-                    <div className='form-select'>
-                        <select value={this.state.selected} onChange={this.handleChange}>
-                            {options}
-                        </select>
-                    </div>
+
+                    {/*<div className='form-select'>*/}
+                        {/*<select value={this.state.selected} onChange={this.handleChange}>*/}
+                            {/*{options}*/}
+                        {/*</select>*/}
+                    {/*</div>*/}
+
                     <div className='submit-button'>
                         <button onClick={this.handleClick}>Search</button>
                     </div>
@@ -95,6 +99,27 @@ class Home extends React.Component {
                         nightForecast: res.data.response[0].periods.filter(el => el.isDay == false),
                         city: res.data.response[0].profile.tz.split('/')[1].replace('_', ' ')
                     })
+                    return axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${this.state.lat}+${this.state.long}&key=e5c8be64cd1f42c8900770e86d679cd7`)
+                })
+                .then(res => {
+                    const data = res.data.results[0].components;
+                    if(data.hasOwnProperty('city')) {
+                        this.setState({
+                            city: data.city
+                        })
+                    }
+
+                    else if (data.hasOwnProperty('town')) {
+                        this.setState({
+                            city: data.town
+                        })
+                    }
+
+                    else if (data.hasOwnProperty('village')) {
+                        this.setState({
+                            city: data.village
+                        })
+                    }
                 })
 
         }, err => {
@@ -108,33 +133,24 @@ class Home extends React.Component {
                     this.setState({
                         dayForecast: res.data.response[0].periods.filter(el => el.isDay),
                         nightForecast: res.data.response[0].periods.filter(el => el.isDay == false),
-                        city: res.data.response[0].profile.tz.split('/')[1].replace('_', ' ')
+                        city: 'New York'
                     })
                 })
 
         })
-        const db = firebase.database();
-
-        db.ref('/isocodes').on('value', (snap) => {
-            const data = snap.val();
-
-            this.setState({
-                isoCodes: this.state.isoCodes.concat(data)
-            })
-        })
-    }
-
-    handleChange = (e) => {
-        this.setState({
-            selected: e.currentTarget.value
-        })
-        this.state.isoCodes.map(el => {
-            if (el.name === e.currentTarget.value) {
-                this.setState({
-                    code: el['alpha-2']
-                })
-            }
-        })
+        //
+        //
+        // connecting to database
+        //
+        //
+        // const db = firebase.database();
+        // db.ref('/isocodes').on('value', (snap) => {
+        //     const data = snap.val();
+        //
+        //     this.setState({
+        //         isoCodes: this.state.isoCodes.concat(data)
+        //     })
+        // })
     }
 
     handleInputChange = (e) => {
@@ -145,21 +161,58 @@ class Home extends React.Component {
 
     handleClick = (e) => {
         e.preventDefault();
-        axios.get(`https://api.aerisapi.com/forecasts/${this.state.inputVal},${this.state.code}?filter=daynight&client_id=acDZUrrq2VrlSb3gOoAnG&client_secret=ivUH2JTtotXlCJa9xnEn19f7rK43x75wDaHFjWic`)
+        axios.get(`https://api.aerisapi.com/forecasts/${this.state.inputVal},?filter=daynight&client_id=acDZUrrq2VrlSb3gOoAnG&client_secret=ivUH2JTtotXlCJa9xnEn19f7rK43x75wDaHFjWic`)
             .then(res => {
-                console.log(res);
                 this.setState({
                     dayForecast: res.data.success == false ? null : res.data.response[0].periods.filter(el => el.isDay),
                     nightForecast: res.data.success == false ? null : res.data.response[0].periods.filter(el => el.isDay == false),
-                    city: res.data.success == false ? null : res.data.response[0].profile.tz.split('/')[1].replace('_', ' '),
                     checkQuery: res.data.success == false ? false : true,
-                    //
-                    // long: res.data.response[0].loc.long,
-                    // lat: res.data.response[0].loc.lat,
+                    long: res.data.success == true ? res.data.response[0].loc.long : this.state.long,
+                    lat: res.data.success == true ? res.data.response[0].loc.lat : this.state.lat,
                     inputVal: ''
                 })
+                return axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${this.state.lat}+${this.state.long}&key=e5c8be64cd1f42c8900770e86d679cd7`)
+            })
+            .then(res => {
+                const data = res.data.results[0].components;
+                if(data.hasOwnProperty('city')) {
+                    this.setState({
+                        city: data.city
+                    })
+                }
+
+                else if (data.hasOwnProperty('town')) {
+                    this.setState({
+                        city: data.town
+                    })
+                }
+
+                else if (data.hasOwnProperty('village')) {
+                    this.setState({
+                        city: data.village
+                    })
+                }
+                console.log(data);
             })
     }
+
+    //
+    //
+    // setting proper iso code
+    //
+    //
+    // handleChange = (e) => {
+    //     this.setState({
+    //         selected: e.currentTarget.value
+    //     })
+    //     this.state.isoCodes.map(el => {
+    //         if (el.name === e.currentTarget.value) {
+    //             this.setState({
+    //                 code: el['alpha-2']
+    //             })
+    //         }
+    //     })
+    // }
 
 }
 

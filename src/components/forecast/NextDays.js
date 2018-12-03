@@ -14,7 +14,7 @@ class NextDays extends React.Component {
         for (let i=1; i<7; i++) {
             boxes = [
                 ...boxes,
-                <div className="box">
+                <div key={i} className="box">
                     <div onMouseLeave={this.hideDetails} onMouseEnter={this.showDetails} className='box_main'>
                         <div className='box_day-info'>
                             <span className='box_date'>{this.props.day[i].validTime.slice(0,10)}</span>
