@@ -12,9 +12,9 @@ class Header extends React.Component {
     render() {
         return (
 
-            <Navbar color="indigo" dark expand="md">
+            <Navbar className='navbar fixed-top' style={{background: `#000 url('http://www.script-tutorials.com/demos/360/images/stars.png') repeat top center`}} dark expand="md">
                 <NavbarBrand>
-                    <NavLink to='/'><strong className="white-text">Lightning map and weather forecast</strong></NavLink>
+                    <NavLink to='/'><strong className="white-text">WeatherApp</strong></NavLink>
                 </NavbarBrand>
                 <NavbarToggler
                     onClick={this.toggleCollapse}
@@ -53,7 +53,7 @@ class Header extends React.Component {
                             </Dropdown>
                         </NavItem>
                         <NavItem>
-                            <NavLink to='/forecast'>Forecast</NavLink>
+                            <NavLink to='/forecast'>NIC</NavLink>
                         </NavItem>
                     </NavbarNav>
                 </Collapse>

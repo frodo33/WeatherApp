@@ -5,12 +5,12 @@ class DayCard extends React.Component {
         return (
             <div className='card-dn'>
                 <div>
-                    <div className='card-dn_sun'><img src={require('../../images/001-sunny.svg')}/></div>
-                    <div className='card-dn_cloud-top'><img src={require('../../images/003-cloud.svg')}/></div>
-                    <div className='card-dn_cloud-bottom'><img src={require('../../images/003-cloud.svg')}/>
+                    <div className='card-dn_sun'><img src={require('../../images/001-sunny.svg')} alt=''/></div>
+                    <div className='card-dn_cloud-top'><img src={require('../../images/003-cloud.svg')} alt=''/></div>
+                    <div className='card-dn_cloud-bottom'><img src={require('../../images/003-cloud.svg')} alt=''/>
                     </div>
-                    <div className='card-dn_bg-cloud'><img src={require('../../images/003-cloud.svg')}/></div>
-                    <div className='card-dn_bg-cloud2'><img src={require('../../images/003-cloud.svg')}/></div>
+                    <div className='card-dn_bg-cloud'><img src={require('../../images/003-cloud.svg')} alt=''/></div>
+                    <div className='card-dn_bg-cloud2'><img src={require('../../images/003-cloud.svg')} alt=''/></div>
                 </div>
                 <div className='card-content'>
                     <div className='card-content_top'>

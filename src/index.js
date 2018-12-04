@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import firebase from 'firebase';
+// import firebase from 'firebase';
 import './App.scss'
 import {
     HashRouter,
@@ -20,21 +20,19 @@ import NorthAmerica from "./components/NorthAmerica";
 import SouthAmerica from "./components/SouthAmerica";
 import Africa from "./components/Africa";
 import Asia from "./components/Asia";
-import Forecast from "./components/Forecast";
+// import Forecast from "./components/Forecast";
 import Home from './components/Home';
 
-var config = {
-    apiKey: "AIzaSyCF7yfseUxmzjns27mPB7tgdkdG0PVu6QE",
-    authDomain: "weather-60729.firebaseapp.com",
-    databaseURL: "https://weather-60729.firebaseio.com",
-    projectId: "weather-60729",
-    storageBucket: "weather-60729.appspot.com",
-    messagingSenderId: "446964294054"
-};
-firebase.initializeApp(config);
+// var config = {
+//     apiKey: "AIzaSyCF7yfseUxmzjns27mPB7tgdkdG0PVu6QE",
+//     authDomain: "weather-60729.firebaseapp.com",
+//     databaseURL: "https://weather-60729.firebaseio.com",
+//     projectId: "weather-60729",
+//     storageBucket: "weather-60729.appspot.com",
+//     messagingSenderId: "446964294054"
+// };
+// firebase.initializeApp(config);
 
-// landing page cookolwiek
-// footer
 
 ReactDOM.render(
     <HashRouter>
@@ -48,7 +46,6 @@ ReactDOM.render(
                 <Route path='/southamerica' component={SouthAmerica}/>
                 <Route path='/africa' component={Africa}/>
                 <Route path='/asia' component={Asia}/>
-                <Route path='/forecast' component={Forecast}/>
             </Switch>
         </div>
     </HashRouter>,

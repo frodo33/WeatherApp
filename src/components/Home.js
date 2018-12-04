@@ -1,6 +1,5 @@
 import React from 'react';
 import axios from "axios";
-// import firebase from "firebase";
 import DayCard from './forecast/DayCard';
 import NightCard from './forecast/NightCard';
 import Error from './forecast/Error';
@@ -15,22 +14,17 @@ class Home extends React.Component {
             dayForecast: null,
             nightForecast: null,
             city: null,
-            // isoCodes: [],
-            // selected: '',
-            // code: '',
             inputVal: '',
             checkQuery: true,
-            forecast: null
+            forecast: null,
+            more: false,
+            buttonText: 'Load More'
         }
     }
 
     render() {
-        const date = new Date().getHours();
-
-        //
-        // const options = this.state.isoCodes.map((e, i) => {
-        //     return <option key={i}>{e.name}</option>
-        // })
+        let date = this.state.dayForecast !== null && eval(new Date().getUTCHours() + this.state.dayForecast[0].dateTimeISO.slice(19,20) + Number(this.state.dayForecast[0].dateTimeISO.slice(20,22)));
+        date = date > 24 ? date - 24 : date;
 
         return (
             <div className='home-container'>
@@ -40,24 +34,17 @@ class Home extends React.Component {
                         <input value={this.state.inputVal} onChange={this.handleInputChange} type="text"
                                placeholder='Your city'/>
                     </div>
-
-                    {/*<div className='form-select'>*/}
-                        {/*<select value={this.state.selected} onChange={this.handleChange}>*/}
-                            {/*{options}*/}
-                        {/*</select>*/}
-                    {/*</div>*/}
-
                     <div className='submit-button'>
                         <button onClick={this.handleClick}>Search</button>
                     </div>
                 </form>
 
                 {
-                    this.state.dayForecast !== null && this.state.nightForecast !== null
+                    (this.state.dayForecast !== null && this.state.nightForecast !== null)
                         ? <>
                             <section className='cards'>
                                 {
-                                    date > 7 && date < 19
+                                    (date > 7 && date < 19)
                                         ? <>
                                             <DayCard city={this.state.city} data={this.state.dayForecast}/>
                                             <NightCard city={this.state.city} data={this.state.nightForecast}/>
@@ -68,7 +55,8 @@ class Home extends React.Component {
                                         </>
                                 }
                             </section>
-                            <NextDays day={this.state.dayForecast} night={this.state.nightForecast} />
+                            <button className='load-more' onClick={this.loadMore}>{this.state.buttonText}</button>
+                            {this.state.more ? <NextDays day={this.state.dayForecast} night={this.state.nightForecast} /> : null}
                         </>
 
 
@@ -102,24 +90,7 @@ class Home extends React.Component {
                     return axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${this.state.lat}+${this.state.long}&key=e5c8be64cd1f42c8900770e86d679cd7`)
                 })
                 .then(res => {
-                    const data = res.data.results[0].components;
-                    if(data.hasOwnProperty('city')) {
-                        this.setState({
-                            city: data.city
-                        })
-                    }
-
-                    else if (data.hasOwnProperty('town')) {
-                        this.setState({
-                            city: data.town
-                        })
-                    }
-
-                    else if (data.hasOwnProperty('village')) {
-                        this.setState({
-                            city: data.village
-                        })
-                    }
+                    this.checkCity(res)
                 })
 
         }, err => {
@@ -138,25 +109,6 @@ class Home extends React.Component {
                 })
 
         })
-        //
-        //
-        // connecting to database
-        //
-        //
-        // const db = firebase.database();
-        // db.ref('/isocodes').on('value', (snap) => {
-        //     const data = snap.val();
-        //
-        //     this.setState({
-        //         isoCodes: this.state.isoCodes.concat(data)
-        //     })
-        // })
-    }
-
-    handleInputChange = (e) => {
-        this.setState({
-            inputVal: e.currentTarget.value
-        })
     }
 
     handleClick = (e) => {
@@ -174,46 +126,43 @@ class Home extends React.Component {
                 return axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${this.state.lat}+${this.state.long}&key=e5c8be64cd1f42c8900770e86d679cd7`)
             })
             .then(res => {
-                const data = res.data.results[0].components;
-                if(data.hasOwnProperty('city')) {
-                    this.setState({
-                        city: data.city
-                    })
-                }
-
-                else if (data.hasOwnProperty('town')) {
-                    this.setState({
-                        city: data.town
-                    })
-                }
-
-                else if (data.hasOwnProperty('village')) {
-                    this.setState({
-                        city: data.village
-                    })
-                }
-                console.log(data);
+                this.checkCity(res);
             })
     }
 
-    //
-    //
-    // setting proper iso code
-    //
-    //
-    // handleChange = (e) => {
-    //     this.setState({
-    //         selected: e.currentTarget.value
-    //     })
-    //     this.state.isoCodes.map(el => {
-    //         if (el.name === e.currentTarget.value) {
-    //             this.setState({
-    //                 code: el['alpha-2']
-    //             })
-    //         }
-    //     })
-    // }
+    handleInputChange = (e) => {
+        this.setState({
+            inputVal: e.currentTarget.value
+        })
+    }
 
+    loadMore = () => {
+        this.setState({
+            more: this.state.more ? false : true,
+            buttonText: this.state.more ? 'Load More' : 'Hide'
+        })
+    }
+
+    checkCity = (p) => {
+        const data = p.data.results[0].components;
+        if(data.hasOwnProperty('city')) {
+            this.setState({
+                city: data.city
+            })
+        }
+
+        else if (data.hasOwnProperty('town')) {
+            this.setState({
+                city: data.town
+            })
+        }
+
+        else if (data.hasOwnProperty('village')) {
+            this.setState({
+                city: data.village
+            })
+        }
+    }
 }
 
 export default Home;

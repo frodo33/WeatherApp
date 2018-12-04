@@ -5,10 +5,10 @@ class NightCard extends React.Component {
         return (
             <div className='night-card'>
                 <div>
-                    <div className='moon'><img src={require('../../images/moon.svg')}/></div>
+                    <div className='moon'><img src={require('../../images/moon.svg')} alt=''/></div>
                     <div className="stars"></div>
-                    <div className='bg-cloud'><img src={require('../../images/003-cloud-1.svg')}/></div>
-                    <div className='bg-cloud2'><img src={require('../../images/003-cloud-1.svg')}/></div>
+                    <div className='bg-cloud'><img src={require('../../images/003-cloud-1.svg')} alt=''/></div>
+                    <div className='bg-cloud2'><img src={require('../../images/003-cloud-1.svg')} alt=''/></div>
                 </div>
                 <div className='card-content'>
                     <div className='card-content_top color'>
