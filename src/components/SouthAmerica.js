@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import GoogleMapReact from 'google-map-react';
 import axios from 'axios';
+const apiMap = process.env.REACT_APP_GOOGLE_KEY;
+const apiWeather = process.env.REACT_APP_WEATHER_KEY;
 
 const AnyReactComponent = ({ text }) => (
     <div><img style={{width: '15px'}} src={require('../images/lightning.svg')} alt='+'/></div>
@@ -28,23 +30,24 @@ class SouthAmerica extends Component {
         })
 
         return (
+            <div className='maps-container'>
+                <div className='maps'>
+                    <GoogleMapReact
+                        bootstrapURLKeys={{ key: `${apiMap}` }}
+                        defaultCenter={this.props.center}
+                        defaultZoom={this.props.zoom}
+                    >
+                        {markers}
+                    </GoogleMapReact>
+                    <button className='load-more' onClick={() => window.location.reload(true)}>Refresh</button>
+                </div>
 
-            // Important! Always set the container height explicitly
-            <div className='maps'>
-                <GoogleMapReact
-                    bootstrapURLKeys={{ key: 'AIzaSyC69x3P_HQ73tuA4WZk6QzNUbXHGAjNrmc' }}
-                    defaultCenter={this.props.center}
-                    defaultZoom={this.props.zoom}
-                >
-                    {markers}
-                </GoogleMapReact>
-                <button className='load-more' onClick={() => window.location.reload(true)}>Refresh</button>
             </div>
         );
     }
 
     componentDidMount() {
-        axios.get('https://api.aerisapi.com/lightning/manaus,br?radius=999999miles&limit=1000&sort=dt:-1&client_id=acDZUrrq2VrlSb3gOoAnG&client_secret=ivUH2JTtotXlCJa9xnEn19f7rK43x75wDaHFjWic')
+        axios.get(`https://api.aerisapi.com/lightning/manaus,br?radius=999999miles&limit=1000&sort=dt:-1&client_id=acDZUrrq2VrlSb3gOoAnG&client_secret=${apiWeather}`)
             .then(res => {
                 this.setState({
                     lightnings: res.data.response

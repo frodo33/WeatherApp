@@ -50,6 +50,7 @@ class NextDays extends React.Component {
         return boxes;
     }
 
+
     render() {
         return (
             <div className='boxes'>

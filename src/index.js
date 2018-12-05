@@ -14,6 +14,8 @@ import * as serviceWorker from './serviceWorker';
 
 
 import Header from './components/Header';
+import Home from './components/Home';
+import Footer from './components/Footer';
 import Europe from './components/Europe';
 import Australia from './components/Australia';
 import NorthAmerica from "./components/NorthAmerica";
@@ -21,7 +23,7 @@ import SouthAmerica from "./components/SouthAmerica";
 import Africa from "./components/Africa";
 import Asia from "./components/Asia";
 // import Forecast from "./components/Forecast";
-import Home from './components/Home';
+
 
 // var config = {
 //     apiKey: "AIzaSyCF7yfseUxmzjns27mPB7tgdkdG0PVu6QE",
@@ -40,13 +42,14 @@ ReactDOM.render(
             <Header />
             <Switch>
                 <Route exact path='/' component={Home} />
-                <Route path='/europe' component={Europe}/>
-                <Route path='/australia' component={Australia}/>
-                <Route path='/northamerica' component={NorthAmerica}/>
-                <Route path='/southamerica' component={SouthAmerica}/>
-                <Route path='/africa' component={Africa}/>
-                <Route path='/asia' component={Asia}/>
+                <Route path='/europe' component={Europe} />
+                <Route path='/australia' component={Australia} />
+                <Route path='/northamerica' component={NorthAmerica} />
+                <Route path='/southamerica' component={SouthAmerica} />
+                <Route path='/africa' component={Africa} />
+                <Route path='/asia' component={Asia} />
             </Switch>
+            <Footer />
         </div>
     </HashRouter>,
     document.getElementById('root'));

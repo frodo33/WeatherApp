@@ -4,6 +4,8 @@ import DayCard from './forecast/DayCard';
 import NightCard from './forecast/NightCard';
 import Error from './forecast/Error';
 import NextDays from './forecast/NextDays';
+const apiGeocode = process.env.REACT_APP_GEO_KEY;
+const apiWeather = process.env.REACT_APP_WEATHER_KEY;
 
 class Home extends React.Component {
     constructor(props) {
@@ -80,14 +82,14 @@ class Home extends React.Component {
                 long: pos.coords.longitude,
                 lat: pos.coords.latitude
             })
-            axios.get(`https://api.aerisapi.com/forecasts/${this.state.lat},${this.state.long}?filter=daynight&client_id=acDZUrrq2VrlSb3gOoAnG&client_secret=ivUH2JTtotXlCJa9xnEn19f7rK43x75wDaHFjWic`)
+            axios.get(`https://api.aerisapi.com/forecasts/${this.state.lat},${this.state.long}?filter=daynight&client_id=acDZUrrq2VrlSb3gOoAnG&client_secret=${apiWeather}`)
                 .then(res => {
                     this.setState({
                         dayForecast: res.data.response[0].periods.filter(el => el.isDay),
-                        nightForecast: res.data.response[0].periods.filter(el => el.isDay == false),
-                        city: res.data.response[0].profile.tz.split('/')[1].replace('_', ' ')
+                        nightForecast: res.data.response[0].periods.filter(el => el.isDay == false)
                     })
-                    return axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${this.state.lat}+${this.state.long}&key=e5c8be64cd1f42c8900770e86d679cd7`)
+
+                    return axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${this.state.lat}+${this.state.long}&key=${apiGeocode}`)
                 })
                 .then(res => {
                     this.checkCity(res)
@@ -99,7 +101,7 @@ class Home extends React.Component {
                 long: -74.0059700
             })
 
-            axios.get(`https://api.aerisapi.com/forecasts/${this.state.lat},${this.state.long}?filter=daynight&client_id=acDZUrrq2VrlSb3gOoAnG&client_secret=ivUH2JTtotXlCJa9xnEn19f7rK43x75wDaHFjWic`)
+            axios.get(`https://api.aerisapi.com/forecasts/${this.state.lat},${this.state.long}?filter=daynight&client_id=acDZUrrq2VrlSb3gOoAnG&client_secret=${apiWeather}`)
                 .then(res => {
                     this.setState({
                         dayForecast: res.data.response[0].periods.filter(el => el.isDay),
@@ -113,7 +115,7 @@ class Home extends React.Component {
 
     handleClick = (e) => {
         e.preventDefault();
-        axios.get(`https://api.aerisapi.com/forecasts/${this.state.inputVal},?filter=daynight&client_id=acDZUrrq2VrlSb3gOoAnG&client_secret=ivUH2JTtotXlCJa9xnEn19f7rK43x75wDaHFjWic`)
+        axios.get(`https://api.aerisapi.com/forecasts/${this.state.inputVal},?filter=daynight&client_id=acDZUrrq2VrlSb3gOoAnG&client_secret=${apiWeather}`)
             .then(res => {
                 this.setState({
                     dayForecast: res.data.success == false ? null : res.data.response[0].periods.filter(el => el.isDay),
@@ -123,7 +125,7 @@ class Home extends React.Component {
                     lat: res.data.success == true ? res.data.response[0].loc.lat : this.state.lat,
                     inputVal: ''
                 })
-                return axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${this.state.lat}+${this.state.long}&key=e5c8be64cd1f42c8900770e86d679cd7`)
+                return axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${this.state.lat}+${this.state.long}&key=${apiGeocode}`)
             })
             .then(res => {
                 this.checkCity(res);

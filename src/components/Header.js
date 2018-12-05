@@ -26,9 +26,9 @@ class Header extends React.Component {
                 >
                     <NavbarNav left>
                         <NavItem>
-                            <Dropdown>
+                            <Dropdown style={{marginLeft: '30px'}}>
                                 <DropdownToggle nav caret>
-                                    <div className="d-md-inline">Continents</div>
+                                    <div className="d-md-inline">Lightning detector</div>
                                 </DropdownToggle>
                                 <DropdownMenu>
                                     <NavLink to="/europe">
@@ -51,9 +51,6 @@ class Header extends React.Component {
                                     </NavLink>
                                 </DropdownMenu>
                             </Dropdown>
-                        </NavItem>
-                        <NavItem>
-                            <NavLink to='/forecast'>NIC</NavLink>
                         </NavItem>
                     </NavbarNav>
                 </Collapse>
