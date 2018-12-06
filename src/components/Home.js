@@ -18,15 +18,13 @@ class Home extends React.Component {
             city: null,
             inputVal: '',
             checkQuery: true,
-            forecast: null,
             more: false,
             buttonText: 'Load More'
         }
     }
 
+
     render() {
-        let date = this.state.dayForecast !== null && eval(new Date().getUTCHours() + this.state.dayForecast[0].dateTimeISO.slice(19,20) + Number(this.state.dayForecast[0].dateTimeISO.slice(20,22)));
-        date = date > 24 ? date - 24 : date;
 
         return (
             <div className='home-container'>
@@ -46,7 +44,7 @@ class Home extends React.Component {
                         ? <>
                             <section className='cards'>
                                 {
-                                    (date > 7 && date < 19)
+                                    (this.getDate() > 7 && this.getDate() < 19)
                                         ? <>
                                             <DayCard city={this.state.city} data={this.state.dayForecast}/>
                                             <NightCard city={this.state.city} data={this.state.nightForecast}/>
@@ -65,7 +63,7 @@ class Home extends React.Component {
                         : this.state.checkQuery
                         ? <div className='loader-asd'>
                             {
-                                date > 7 && date < 19
+                                this.getDate() > 7 && this.getDate() < 19
                                     ? <div><img src={require("../images/001-sunny.svg")} alt=""/></div>
                                     : <div><img src={require("../images/moon.svg")} alt=""/></div>
                             }
@@ -81,13 +79,13 @@ class Home extends React.Component {
             this.setState({
                 long: pos.coords.longitude,
                 lat: pos.coords.latitude
-            })
+            });
             axios.get(`https://api.aerisapi.com/forecasts/${this.state.lat},${this.state.long}?filter=daynight&client_id=acDZUrrq2VrlSb3gOoAnG&client_secret=${apiWeather}`)
                 .then(res => {
                     this.setState({
                         dayForecast: res.data.response[0].periods.filter(el => el.isDay),
                         nightForecast: res.data.response[0].periods.filter(el => el.isDay == false)
-                    })
+                    });
 
                     return axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${this.state.lat}+${this.state.long}&key=${apiGeocode}`)
                 })
@@ -99,7 +97,7 @@ class Home extends React.Component {
             this.setState({
                 lat: 40.7142700,
                 long: -74.0059700
-            })
+            });
 
             axios.get(`https://api.aerisapi.com/forecasts/${this.state.lat},${this.state.long}?filter=daynight&client_id=acDZUrrq2VrlSb3gOoAnG&client_secret=${apiWeather}`)
                 .then(res => {
@@ -143,6 +141,7 @@ class Home extends React.Component {
             more: this.state.more ? false : true,
             buttonText: this.state.more ? 'Load More' : 'Hide'
         })
+
     }
 
     checkCity = (p) => {
@@ -164,6 +163,12 @@ class Home extends React.Component {
                 city: data.village
             })
         }
+    }
+
+    getDate = () => {
+        let date = this.state.dayForecast !== null && eval(new Date().getUTCHours() + this.state.dayForecast[0].dateTimeISO.slice(19,20) + Number(this.state.dayForecast[0].dateTimeISO.slice(20,22)));
+        date = date > 24 ? date - 24 : date;
+        return date;
     }
 }
 

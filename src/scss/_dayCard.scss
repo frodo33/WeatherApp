@@ -14,6 +14,17 @@
 
 }
 
+@keyframes loader {
+      0% {
+            transform: rotate(0);
+      }
+      100% {
+            transform: rotate(360deg);
+      }
+
+}
+
+
 span {
       font-weight: bold;
 }
@@ -109,15 +120,6 @@ span {
 }
 
 
-
-
-
-
-
-
-
-
-
 .card-content {
       &_top {
             display: flex;
@@ -170,11 +172,6 @@ span {
             width: 50%;
       }
 }
-
-
-
-
-
 
 
 .night-card {
@@ -271,14 +268,4 @@ span {
             width: 100%;
 
       }
-}
-
-@keyframes loader {
-      0% {
-            transform: rotate(0);
-      }
-      100% {
-            transform: rotate(360deg);
-      }
-
 }

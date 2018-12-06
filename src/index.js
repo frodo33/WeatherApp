@@ -7,7 +7,6 @@ import {
     Route,
     Switch
 } from 'react-router-dom';
-import 'font-awesome/css/font-awesome.min.css';
 import 'bootstrap-css-only/css/bootstrap.min.css';
 import 'mdbreact/dist/css/mdb.css';
 import * as serviceWorker from './serviceWorker';
@@ -15,18 +14,16 @@ import * as serviceWorker from './serviceWorker';
 
 import Header from './components/Header';
 import Home from './components/Home';
-import Footer from './components/Footer';
 import Europe from './components/Europe';
 import Australia from './components/Australia';
 import NorthAmerica from "./components/NorthAmerica";
 import SouthAmerica from "./components/SouthAmerica";
 import Africa from "./components/Africa";
 import Asia from "./components/Asia";
-// import Forecast from "./components/Forecast";
 
 
 // var config = {
-//     apiKey: "AIzaSyCF7yfseUxmzjns27mPB7tgdkdG0PVu6QE",
+//     apiKey: `${fbKey}`,
 //     authDomain: "weather-60729.firebaseapp.com",
 //     databaseURL: "https://weather-60729.firebaseio.com",
 //     projectId: "weather-60729",
@@ -49,7 +46,6 @@ ReactDOM.render(
                 <Route path='/africa' component={Africa} />
                 <Route path='/asia' component={Asia} />
             </Switch>
-            <Footer />
         </div>
     </HashRouter>,
     document.getElementById('root'));

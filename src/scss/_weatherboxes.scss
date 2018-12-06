@@ -10,10 +10,6 @@
       padding: 50px 0 150px 0;
       margin-left: 20px;
 
-      &:first-child {
-            margin-left: 0;
-      }
-
       @media (max-width: 1250px) {
             width: 40%;
       }
@@ -21,54 +17,64 @@
             width: 80%;
             margin-left: 0;
       }
-}
-.box_main {
-      display: flex;
-      position: relative;
-      z-index: 1;
-}
-.box_day-info {
-      width: 50%;
-      background: #D1F6FD;
-      border-radius: 30px 0 0 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: center;
-}
-.box_date {
-      font-weight: 700;
-      font-size: 22px;
-      padding-top: 20px;
-}
-.box_icon {
-      width: 100px;
-      padding: 20px 0;
 
-      & img {
-            width: 100%;
+      &:first-child {
+            margin-left: 0;
       }
-}
-.box_temp {
-      font-weight: 700;
-      font-size: 35px;
-}
-.box_text {
-      font-weight: 700;
-      font-size: 18px;
-      padding-bottom: 20px;
-      text-align: center;
-}
 
-.box_night-info {
-      width: 50%;
-      background:#000 url('http://www.script-tutorials.com/demos/360/images/stars.png') repeat top center;
-      border-radius: 0 30px 0 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: center;
-      color: #D1F6FD;
+      &_main {
+            display: flex;
+            position: relative;
+            z-index: 1;
+      }
+
+      &_day-info {
+            width: 50%;
+            background: #D1F6FD;
+            border-radius: 30px 0 0 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+      }
+
+      &_date {
+            font-weight: 700;
+            font-size: 22px;
+            padding-top: 20px;
+      }
+
+      &_icon {
+            width: 100px;
+            padding: 20px 0;
+
+            & img {
+                  width: 100%;
+            }
+      }
+
+      &_temp {
+            font-weight: 700;
+            font-size: 35px;
+      }
+
+      &_text {
+            font-weight: 700;
+            font-size: 18px;
+            padding-bottom: 20px;
+            text-align: center;
+      }
+
+      &_night-info {
+            width: 50%;
+            background:#000 url('http://www.script-tutorials.com/demos/360/images/stars.png') repeat top center;
+            border-radius: 0 30px 0 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            color: #D1F6FD;
+      }
 }
 
 .box_sub {
@@ -79,10 +85,7 @@
       left: 0;
       z-index: -1;
       transition: 1s;
-      //
-      //&:hover {
-      //      bottom: -130px;
-      //}
+
       & span {
             padding: 5px;
             font-size: 14px;
